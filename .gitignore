@@ -1,0 +1,12 @@
+nbproject/
+
+**/*.depend
+**/*.o
+**/*.a
+Results/*.png
+Results/*.jpg
+Results/*.txt
+data/ocean/currents_nc/*.nc
+simu
+tsp.txt
+

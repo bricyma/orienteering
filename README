@@ -1,0 +1,28 @@
+
+Libs dependancy:
+
+1. OpenGL things, such as glut3 etc
+2. Matrix libs: armadillo, eigen3 (needed by geometry utils)
+
+
+Instructions (some obsolete)
+
+1. "make" to compile 
+2. make sure the graph is connected otherwise it is not a graph! (mod radius in define.h if edges are generated of neighbors within certain radius)
+3. modify the starts, goals, and other nodes (body) in configs/topo.txt 
+4. lambda is option "-l".  l>=0, when lambda is 0, the paths are globally shortest for all paths; when lambda is increased, say, to 10, more vertices will be involved in the paths.
+5. to turn off the gui, use -g flag 
+
+
+To run
+./simu
+
+To control the lambda, e.g., 
+./simu -l 0.5
+
+To clean sim
+  make clean
+To deeply clean
+  make reallyclean
+
+

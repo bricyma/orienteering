@@ -1,0 +1,39 @@
+ 1. add function, 1:log 2: linear
+ 2. change the shape of score with time goes on
+ 3. design the path with time goes on, one step by one step(/s), i mean the path grows with time.
+ 4. Add radius for the start point, find the most efficient path(score/cost), 
+ 	choose the end node in this area. 
+ 5. In the next step, regard the end node as the start node, iteration begins.
+
+ 6. Perturbation to avoid the local minimum. not sure yet. maybe change the direction?
+
+ 7. Add data, show current score 
+
+ 8. T=1 month, Total working time = 12 months.
+
+
+ 7.26
+ 1. update score function for each node
+ 2. show the current remain score, remain score = incresing score - collected score
+ 
+ 8.17
+ 1. add speed  (8.23)
+ 2. life long stages, after one trip ends, start to plan the next trip
+
+ 8.23
+ 1. add speed
+ 2. compare the result with traditional op, same start and end nodes.
+ 3. problem: the score for op seems not right
+ 
+ 8.24
+ 1. problem: no big difference between my op and traditional op, v=4, node number 100
+
+ 8.25 
+ 1. change the function?
+ 2. update the dijkstra with priority queue
+ 
+ 8.27
+ 1. score function, t2/s, s(t) ????
+
+ 2. Given T_max, start node and end node, path planning. Minimize the average daily remaining storage.
+  
