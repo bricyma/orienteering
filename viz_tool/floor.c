@@ -61,7 +61,8 @@ makeImageFloorTexture(){
   // glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, checker2_IDs[2]);
   // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-  image = SOIL_load_image("usc7_2.png", &width, &height, 0, SOIL_LOAD_RGB);
+  // image = SOIL_load_image("usc7_2.png", &width, &height, 0, SOIL_LOAD_RGB);
+  image = SOIL_load_image("ny_map2.png", &width, &height, 0, SOIL_LOAD_RGB);
 
   printf("\n %d %d", width, height);
   if (!image)

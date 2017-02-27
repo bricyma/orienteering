@@ -5,13 +5,13 @@
 #include <sstream>
 #include "utils/topology.h"
 #include <cmath>
+#include <vector>
 
-
-#define PI 3.14159265
 using namespace std;
 // TODO
-// extern vector<
+extern int test_collect;
 
-void data_collect();
+vector<real_vertex> data_collect();
+vector<vector<vector<int> > > collect_score();
 
 #endif

@@ -71,8 +71,14 @@ void drawAll(void) {
     glPushMatrix();
     //glTranslatef(nodes[i].pos.x(), -0.2, nodes[i].pos.y());
     glTranslatef(nodes[i].pos.x(), nodes[i].pos.y(), 0);
-    glColor3f(0.5, 0.5, 1);
-    glutSolidSphere(0.015 * nodes[i].score, 20, 20);   //last edition without time variant score
+    if (i==32){
+      glColor3f(1,0,0);
+      glutSolidCube(3);  
+    }else {
+      glColor3f(0.5, 0.5, 1);
+      glutSolidSphere(0.015 * nodes[i].score, 20, 20);   //last edition without time variant score
+    }
+    // glutSolidSphere(0.015 * nodes[i].score, 20, 20);   //last edition without time variant score
 //    glutSolidSphere(0.01 * curscore[i], 20, 20);
     // gluCylinder(quadratic,5.0f,0.1f,3.0f,32,32);
     //glTranslatef(4,0,12);
@@ -307,9 +313,10 @@ render(int argc, char** argv) {
   remain0=0;
   remain1=0;
   double v = 1.0;
-  int StartID = 0, EndID = 1, node_num = ::Num_agents;
+  //TODO, start from JFK
+  int StartID = 32, EndID = 1, node_num = ::Num_agents;
   DAG.setStartEnd(StartID, EndID);
-  DAG.setT(150);
+  DAG.setT(24*60); //150
   DAG.setResolution(1);
   DAG.createNodes(node_num, ::RandSeed, 200.0);
   
@@ -319,7 +326,6 @@ render(int argc, char** argv) {
 //greedy result
   order_op = DAG.greedyPath();
 
-  data_collect();
 //  order_op0.clear();    
 //  order_op = DAG.OptimizedSol();   //optimized solution
 

@@ -1,63 +1,66 @@
 #include <data_collect.h>
+int test_collect = 33;
 
-void data_collect(){
-	ifstream infile("/home/bricy/Desktop/lab/gps_data.txt");
-	// hour_pickup	min_pickup	weekday_pickup	center_long	center_lat	passenger_count
-	double hour_pickup, center_lat, center_long, passenger_count;
-	double min_pickup, weekday_pickup;
+
+vector<real_vertex> data_collect(){
+	ifstream infile("/home/bricy/Desktop/lab/gps_pos.txt");
 	
-	vector<real_vertex> nodes;
-	int count = 0;
-	cout<<"fffffffffff"<<endl;
 	if (!infile){
 		cout<<"wrong file"<<endl;
 	}
 
-	vector<real_vertex> output;
-	string csvLine;
-    // read every line from the stream
-    // while( getline(infile, csvLine) )
-    // {
-    //     istringstream csvStream(csvLine);
-    //     vector<string> csvColumn;
-    //     string csvElement;
+	test_collect = 44;
+	cout<<"vertex collecting>>>>>>>>>>>>>>>>>>"<<endl;
 
-    //     real_vertex v;
-    //     int count = 1;
-    //     while( getline(csvStream, csvElement, ',') ){
-    //     	switch (count) {
-	   //      case 1: v.id = 
-	   //      case 2: v.
-	   //      case 3: std::cout << "3";
-	   //      case 4:
-	   //      case 5: std::cout << "45";
-	   //              break;              //execution of subsequent statements is terminated
-	   //      case 6: std::cout << "6";
-    // }
-    //     	if (count==0):
-    //         csvColumn.push_back(csvElement);
-    //         cout<<stod(csvElement)<<endl;
-    //     }
-    //     output.push_back(csvColumn);
-    // }
-    // cout<<output.size()<<endl;
-    // cout<<output[0].size()<<endl;
-
-	// gps_file.write('%d %d %d %d %d\n' %(i, j, center_x, center_y, s))
+	int index, hour, min, x, y, s;
+	int node_num = 50;
+	int count = 0;
+	vector<real_vertex> vec_v;
+	
+	while (infile >> index >> x >> y){
+		real_vertex v; 
+		v.id = index;
+		double tx = x/400;
+		double ty = y/400;
+		v.pos.x() = tx-5;
+		v.pos.y() = ty+10;
+		v.score = 50;
+	    v.visited = false;
+		vec_v.push_back(v);	
+	}
+	vec_v[32].pos.x()+=10;
+	return vec_v;
+}
 
 
-	// int index, t, s, x, y;
-	// while (infile >> index >> t >> x >> y >> s){
-	// 	real_vertex v; 
-	// 	v.id = count++;
-	// 	double er = 6378137.0;
-	// 	double tx = x;
-	// 	double ty = y;
-	// 	v.pos.x() = tx;
-	// 	v.pos.y() = ty;
-	// 	v.score = s;
-	// 	cout<<"count: "<<count<<endl;
-	// }
+vector<vector<vector<int> > > collect_score(){
+	ifstream infile("/home/bricy/Desktop/lab/gps_data.txt");
+	
+	if (!infile){
+		cout<<"wrong file"<<endl;
+	}
 
+	test_collect = 44;
+	cout<<"score func collecting>>>>>>>>>>>>>>>>>>"<<endl;
 
+	int index, hour, min, x, y, s;
+	int node_num = 50;
+	int count = 0;
+	vector<real_vertex> vec_v;
+	vector<vector<vector<int> > > taxi_score_func;
+	vector<vector<int> > score_hour;
+	vector<int> score_min;
+	for (int i=0; i<60; i++)
+		score_min.push_back(0);
+	for (int i=0; i<24; i++)
+		score_hour.push_back(score_min);
+	for (int i=0; i<node_num; i++)
+		taxi_score_func.push_back(score_hour);
+
+	while (infile >> index >> hour >> min >> x >> y >> s){
+		taxi_score_func[index][hour][min] = s;
+		cout<<s<<endl;
+	}
+	cout<<"score func collected"<<endl;
+	return taxi_score_func;
 }

@@ -7,49 +7,66 @@ set other nodes (indegree=0) except source node v[0], score to be -1000000
 void
 Dag::createNodes(uint _size, uint _seed, double radius)
 {
-   nodes=RandomTopology(_size, BOUND_X, BOUND_Y, _seed, radius);   
+// version 1.0 
+   // nodes=RandomTopology(_size, BOUND_X, BOUND_Y, _seed, radius);   
 
-   // TODO
+   nodes=data_collect();
+   cout<<"length***************"<<nodes.size()<<endl;
+   for (int i=0; i<nodes.size(); i++){
+   	cout<<nodes[i].pos.x()<<" "<<nodes[i].pos.y()<<endl;
+   }
 
-//    cout<<"T: "<<T<<endl;
+
+   cout<<"********************test*******************"<<endl;
+   int fff = test_collect;
+   cout<<fff<<endl;
+   data_collect();
+   cout<<"data collect finish"<<endl;
+   cout<<"after "<<test_collect<<endl;
 }
 
 int 
 Dag::getDistance(int i, int j){
 	//important, must >=1, or it will lack a next 
 	//add resolution important
+	//times
+	int times = 10;
 	if (Distance(nodes[i].pos.x(), nodes[i].pos.y(), 0,
                   nodes[j].pos.x(), nodes[j].pos.y(), 0)/resolution + 0.5 < 1){
 		/*cout<<"dis: "<<i<<" "<<j<< " "<<nodes[i].pos.x()<<" "<<nodes[i].pos.y()<<" "<< Distance(nodes[i].pos.x(), nodes[i].pos.y(), 0,
                   nodes[j].pos.x(), nodes[j].pos.y(), 0)<<endl;*/
-		return 1;
+		return times*1;
 		
 	}
-	return int(Distance(nodes[i].pos.x(), nodes[i].pos.y(), 0,
+
+	return times * int(Distance(nodes[i].pos.x(), nodes[i].pos.y(), 0,
                   nodes[j].pos.x(), nodes[j].pos.y(), 0)/resolution + 0.5); //important +0.5
     //si she wu ru, not sure yet, TODO
 }
 
 double
 Dag::getRealDistance(int i, int j){
-	return Distance(nodes[i].pos.x(), nodes[i].pos.y(), 0,
+	int times = 10;
+	return times * Distance(nodes[i].pos.x(), nodes[i].pos.y(), 0,
                   nodes[j].pos.x(), nodes[j].pos.y(), 0);
 }
 void 
 Dag::init(){
 	v.clear(); //init important!!! for multiple calculation
 	per_res.clear();
-	nodes[start].pos.x() = -49;
-	nodes[start].pos.y() = 0;
+	// nodes[start].pos.x() = -49;
+	// nodes[start].pos.y() = 0;
 //	nodes[end].pos.x() = 49;
 //	nodes[end].pos.y() = 0;
 	
 
+	//TODO
+	// nodes[start].score = 0;
+	// nodes[end].score = 0;
 
-	nodes[start].score = 0;
-	nodes[end].score = 0;
-
+	taxi_score_func = collect_score();
 }
+
 void
 Dag::init_Graph(){
 	init();
@@ -124,26 +141,7 @@ Dag::init_Graph(){
 			v[next_id].degree++;
 		}
 	}
-/*	cout<<"degree: "<<endl;
-	for (int i=0; i<v.size(); i++)
-		cout<<v[i].degree<<" ";*/
 
-	//output next
-
-
-/*	cout<<"01: "<<getDistance(0,1)<<endl;
-	cout<<"02: "<<getDistance(0,2)<<endl;
-	cout<<"01 real: "<<getRealDistance(0,1)<<endl;
-	cout<<"02 real: "<<getRealDistance(0,2)<<endl;
-	cout<<" ************next"<<endl;
-	for (int i=0; i<v.size(); i++){
-		cout<<v[i].index<<" "<<v[i].t<<": ";
-		for (int j=0; j<v[i].next.size(); j++){
-			cout<<v[v[i].next[j]].index<<"-"<<v[v[i].next[j]].t<<", ";
-		}
-		cout<<endl;
-	}
-*/
 }
 
 
@@ -186,6 +184,7 @@ Dag::MaximumPath(){
 		for (int j=0; j<cur_v.next.size(); j++){
 			int next_id = cur_v.next[j];
 			//check distinct
+			//TODO use hash
 			bool flag = true;
 			for (int k=0; k<dpath[top[i]].size(); k++){
 				if (v[next_id].index == dpath[top[i]][k]){
@@ -194,6 +193,7 @@ Dag::MaximumPath(){
 				}
 			}
 	//		cout<<"flag: "<<flag<<endl;
+			//TODO
 			if (flag && v[next_id].sum < v[top[i]].sum + v[next_id].score){ //TODO <= or <
 				v[next_id].sum = v[top[i]].sum + v[next_id].score;
 				v[next_id].parent = top[i];
@@ -265,6 +265,7 @@ Dag::MaximumPath(){
 //find maximal collected score path
 vector<int>
 Dag::findPath(){
+	//TODO start_index ???
 	int start_index = end*(T/resolution+1), max_id;
 	double max_res=0, max_t;
 
@@ -289,19 +290,31 @@ Dag::findPath(){
 			max_t = v[i].t;
 			max_id = i;
 		}
+		cout<<max_res<<endl;
 	}
+	cout<<"max_id: "<<max_id<<endl;
 	cout<<"max_res: "<<max_res<<endl;
 	cout<<"max_t: "<<max_t<<endl;
 
 	cout<<"real_max_res: "<<calculateScore(max_res_vec)<<endl; //TODO
 	cout<<"real_cost: "<<calculateCost(max_res_vec)<<endl;
 
-		cout<<"distance between two nodes: "<<endl;
+	cout<<"distance between two nodes: "<<endl;
 	for (int i=0; i<max_res_vec.size()-1; i++)
 		cout<<getRealDistance(max_res_vec[i],max_res_vec[i+1])<<" ";
 	cout<<endl;
 	for (int i=0; i<max_res_vec.size(); i++)
 		cout<<max_res_vec[i]<<" ";
+	cout<<endl;
+	int t=0;
+	int s=0;
+	for (int i=0; i<max_res_vec.size()-1; i++){
+		t+=getDistance(max_res_vec[i], max_res_vec[i+1]);
+		s+=scoreFunc(max_res_vec[i+1], t);
+		cout<<scoreFunc(max_res_vec[i+1], t)<<" ";
+	}
+	cout<<endl;
+	cout<<"s: "<<s<<endl;
 	return max_res_vec;
 }
 
@@ -419,7 +432,10 @@ Dag::calculateScore(vector<int> path){
 //		if (t>T) return -1;   //TODO, 11.17
 		if (t>T) break;
 	}
-	if (t<=T) sum += scoreFunc(path[path.size()-1], t);
+	//TODO
+	// if (t<=T) sum += scoreFunc(path[path.size()-1], t);
+	if (t<=T) sum += scoreFunc(path[path.size()-1], int(t));
+	
 	return sum;
 }
 
@@ -430,15 +446,20 @@ Dag::calculateCost(vector<int> path){
 		s+=getRealDistance(path[i], path[i+1]);
 	return s;
 }	
+
 double
 Dag::scoreFunc(int i, int t){
 	//return nodes[i].score;
-	return nodes[i].score * double(t)/double(T);
+	// return nodes[i].score * double(t)/double(T);
 	//return nodes[i].score * double((-t*t + t*T + T*T))/(T*T);
 	//return nodes[i].score * log(t+1);
 	//return nodes[i].score * exp(t)/T;
 	//return nodes[i].score * exp(-t)/T;
-
+	if (t==1440) t=0;
+	int hour = t/60;
+	int min = t%60;
+	// cout<<taxi_score_func[i][hour][min]<<endl;
+	return taxi_score_func[i][hour][min];
 }
 
 
@@ -455,22 +476,28 @@ Dag::greedyPath(){
 		double max_eff = 0;
 		int cur_max_id = -1;
 		for (int i=0; i<nodes.size(); i++){
-			double dis = getDistance(last, i);
-			if (!nodes[i].visited && t+dis < T && scoreFunc(i, t+dis)/dis > max_eff){
+			int dis = getDistance(last, i);
+			//TODO, visit multiple times
+			//TODO, add int
+			if (!nodes[i].visited && t+dis < T && scoreFunc(i, int(t+dis))/dis > max_eff){
 				cur_max_id = i;
-				max_eff = scoreFunc(i, t+dis)/dis;
+				max_eff = scoreFunc(i, int(t+dis))/dis;
 			}
 		}
 		if (cur_max_id == -1) break;
 		nodes[cur_max_id].visited = true;
-		total_score += scoreFunc(last, t + getDistance(last, cur_max_id));
+		total_score += scoreFunc(last, int(t + getDistance(last, cur_max_id)));
 		t += getDistance(last, cur_max_id);
 		last = cur_max_id;
 
 	}
+	cout<<endl;
 	cout<<"***********greedy Path*************"<<endl;
 	cout<<"max_res: "<<total_score<<endl;
+	cout<<"max_real: "<<calculateScore(greedy_path)<<endl;
 	cout<<"cost: "<<t<<endl;
+	for (int i=0; i<greedy_path.size(); i++)
+		cout<<greedy_path[i]<<" ";
 	return greedy_path;
 }
 
