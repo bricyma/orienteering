@@ -9,7 +9,6 @@
 #include <cmath>
 #include <fstream>
 #include <queue>
-#include <data_collect.h>
 
 using namespace std;
 
@@ -41,7 +40,6 @@ public:
   double calculateCost(vector<int> path);
   double scoreFunc(int i, int t);
   vector<int> findPath();
-  vector<int> greedyPath();
 private:
   vector<real_vertex> nodes; 
   vector<vertex> v; //time model nodes
@@ -51,8 +49,7 @@ private:
 
   vector<vector<int>> per_res; // the result of permutation
   vector<int> cur;
-  
-  vector<vector<vector<int> > >taxi_score_func;  
+    
   int start,end;
   int T;
   int eT; //estimate T, eT=T*0.95

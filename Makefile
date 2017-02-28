@@ -15,7 +15,6 @@ LD_LIBS = -L$(VIZ_TOOL) -l$(VIZ_TOOL) \
 OBJS = 
 
 SRCS = main.cpp \
-	data_collect.cpp\
 	dag.cpp\
 	op.c\
 	paths.c \

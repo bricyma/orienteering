@@ -173,7 +173,6 @@ RandomTopology(uint _size, uint _bx, uint _by, uint _seed, double radius){
     n.score = rand()%100; 
     //if (n.pos.x()>0 && n.pos.y()<0)
      // n.score = 100;
-    n.visited = false;
     vec.push_back(n);
   }
 

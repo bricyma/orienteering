@@ -27,7 +27,7 @@ GLfloat orig_scale;
 bool _Pause_flag = true;
 int flag_draw = 1;
 
-GLfloat f_w = 50; //floor width
+GLfloat f_w = 100; //floor width
 static GLfloat floorVertices[4][3] = {
   { -f_w, 0.0, f_w},
   { f_w, 0.0, f_w},
@@ -71,14 +71,8 @@ void drawAll(void) {
     glPushMatrix();
     //glTranslatef(nodes[i].pos.x(), -0.2, nodes[i].pos.y());
     glTranslatef(nodes[i].pos.x(), nodes[i].pos.y(), 0);
-    if (i==32){
-      glColor3f(1,0,0);
-      glutSolidCube(3);  
-    }else {
-      glColor3f(0.5, 0.5, 1);
-      glutSolidSphere(0.015 * nodes[i].score, 20, 20);   //last edition without time variant score
-    }
-    // glutSolidSphere(0.015 * nodes[i].score, 20, 20);   //last edition without time variant score
+    glColor3f(0.5, 0.5, 1);
+    glutSolidSphere(0.015 * nodes[i].score, 20, 20);   //last edition without time variant score
 //    glutSolidSphere(0.01 * curscore[i], 20, 20);
     // gluCylinder(quadratic,5.0f,0.1f,3.0f,32,32);
     //glTranslatef(4,0,12);
@@ -253,14 +247,11 @@ display(void) {
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  // glColor4f(0.9, 1.0, 1.0, 0.5);
-  glColor4f(1,1,1,1);
-  
+  glColor4f(0.9, 1.0, 1.0, 0.5);
   glPushMatrix();
   glRotatef(90, 1.0, 0.0, 0.0);
-  //glTranslatef(0, -1, 0);
-  glTranslatef(0, 0, 0);
-  drawFloor(floorVertices, 1);
+  glTranslatef(0, -1, 0);
+  drawFloor(floorVertices, 16);
   glPopMatrix();
   glDisable(GL_BLEND);
 
@@ -313,22 +304,19 @@ render(int argc, char** argv) {
   remain0=0;
   remain1=0;
   double v = 1.0;
-  //TODO, start from JFK
-  int StartID = 32, EndID = 1, node_num = ::Num_agents;
+  int StartID = 0, EndID = 1, node_num = ::Num_agents;
   DAG.setStartEnd(StartID, EndID);
-  DAG.setT(24*60); //150
+  DAG.setT(150);
   DAG.setResolution(1);
   DAG.createNodes(node_num, ::RandSeed, 200.0);
   
   DAG.init_Graph();
   nodes = DAG.getNodes();
   order_op0 = DAG.MaximumPath();
-//greedy result
-  order_op = DAG.greedyPath();
-
 //  order_op0.clear();    
 //  order_op = DAG.OptimizedSol();   //optimized solution
 
+  double r[6]={0.1,0.5,1.0,2,5,10};
 /*
 //statistics of resolution
   vector<double> our_sum;
@@ -416,7 +404,7 @@ render(int argc, char** argv) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE | GLUT_STENCIL | GLUT_MULTISAMPLE);
 
-  glutInitWindowSize(1024/2, 1024/2);
+  glutInitWindowSize(1024, 1024);
   glutCreateWindow("Simu");
   canvasInit();
   glutReshapeFunc(reshape);
@@ -455,8 +443,7 @@ render(int argc, char** argv) {
     glutMotionFunc(motion);
    */
 
-  makeImageFloorTexture(); //for test  
-  // makeCheckerFloorTexture();
+  makeCheckerFloorTexture();
   //makeCircleFloorTexture();
 
   glutIdleFunc(idle);

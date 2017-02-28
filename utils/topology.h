@@ -69,7 +69,6 @@ struct real_vertex{
   point2d_t pos;
   vector<int> neighbors;
   double score;
-  bool visited;
 };
 
 struct vertex{

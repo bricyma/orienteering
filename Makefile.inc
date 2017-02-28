@@ -14,7 +14,7 @@ SHELL	= /bin/sh
 INCL_DIR = -I/usr/local/lib  -I/usr/include/eigen3
 DEPEND   = .depend    #each sub-dir will build a .depend dir to track dependacy
 
-LIBS_GL   = -lSOIL -lGLU -lglut -lGL -lXext -lpthread
+LIBS_GL   =  -lGLU -lglut -lGL -lXext -lpthread
 LIBS_ARMA = -larmadillo -llapack -lblas #-llapack_atlas
 
 

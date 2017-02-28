@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <SOIL.h>
+
 #ifdef __unix__
 #include <GL/glut.h>
 #endif
@@ -17,9 +17,7 @@
 
 namespace viz_tool
 {
-  void 
-  makeImageFloorTexture();
-  
+
   void
   makeCheckerFloorTexture(bool useMipmaps=false, bool linearFiltering=false );
 

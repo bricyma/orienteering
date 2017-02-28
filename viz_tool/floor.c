@@ -46,43 +46,6 @@ GLubyte checker[] = {
 
 GLuint checker_IDs[3];
 GLuint circles_IDs[3];
-GLuint checker2_IDs[100];
-
-// GLuint textures;
-
-void 
-makeImageFloorTexture(){
-  GLuint textures;
-  // glGenTextures(3, &textures);
-  printf("\ntexture = %u", textures);
-  int width, height;
-  unsigned char* image;
-  printf("*******************\n");
-  // glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, checker2_IDs[2]);
-  // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-  // image = SOIL_load_image("usc7_2.png", &width, &height, 0, SOIL_LOAD_RGB);
-  image = SOIL_load_image("ny_map2.png", &width, &height, 0, SOIL_LOAD_RGB);
-
-  printf("\n %d %d", width, height);
-  if (!image)
-    printf ("cnmcnmcnm\n");
-  else
-    printf ("works\n");
-  // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-  // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-  // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 700,700, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width,height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-  SOIL_free_image_data(image);
-  // glBindTexture(GL_TEXTURE_2D, 1);
-  printf("@@@@@@@@@@@@@@@@@@@@@\n");
-}
-
 
 void
 makeCheckerFloorTexture(bool useMipmaps, bool linearFiltering)

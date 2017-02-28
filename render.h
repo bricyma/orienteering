@@ -20,7 +20,7 @@
 #include "dag.h"
 #include <set>
 #include <ctime>
-#include <data_collect.h>
+
 using namespace std;
 using namespace viz_tool;
 
